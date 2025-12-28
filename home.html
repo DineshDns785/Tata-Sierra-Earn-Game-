@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Tata Sierra Earn Game – Home</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px 12px;
+      background:
+        radial-gradient(circle at top,#1e293b,#020617);
+      color:#fff;
+      font-family:system-ui, sans-serif;
+    }
+    .wrapper{
+      width:100%;
+      max-width:420px;
+    }
+    .card{
+      position:relative;
+      padding:20px 18px 24px;
+      border-radius:22px;
+      background:rgba(15,23,42,0.96);
+      box-shadow:
+        0 26px 70px rgba(0,0,0,0.9),
+        0 0 0 1px rgba(148,163,184,0.3);
+      overflow:hidden;
+    }
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 10% 0%,rgba(59,130,246,0.45),transparent 55%),
+        radial-gradient(circle at 90% 100%,rgba(16,185,129,0.6),transparent 55%);
+      opacity:0.55;
+      pointer-events:none;
+    }
+    .content{position:relative;z-index:1;}
+
+    .thumb{
+      width:100%;
+      aspect-ratio:16/9;
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      margin-bottom:14px;
+      box-shadow:0 22px 45px rgba(0,0,0,0.95);
+    }
+    .thumb img{
+      width:100%;height:100%;
+      object-fit:cover;display:block;
+      transform:scale(1.02);
+    }
+    .pill{
+      position:absolute;
+      left:12px;top:10px;
+      padding:4px 11px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.92);
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      border:1px solid rgba(148,163,184,0.45);
+    }
+
+    h1{
+      font-size:21px;
+      margin-bottom:4px;
+    }
+    .tagline{
+      font-size:13px;
+      opacity:0.86;
+      margin-bottom:18px;
+    }
+
+    /* PLAY NOW button color */
+    .primary-btn{
+      width:100%;
+      padding:11px 0;
+      border-radius:999px;
+      border:none;
+      background:linear-gradient(135deg,#22c55e,#00ff88); /* neon green */
+      color:#020617;
+      font-size:15px;
+      font-weight:600;
+      box-shadow:0 0 30px rgba(34,197,94,0.95); /* thoda extra glow */
+    }
+    .primary-btn:active{transform:scale(0.98);}
+
+    /* Withdraw Money button color */
+    .secondary-btn{
+      margin-top:10px;
+      width:100%;
+      padding:9px 0;
+      border-radius:999px;
+      border:1px solid rgba(250,204,21,0.9);
+      background:linear-gradient(135deg,#facc15,#fde047); /* gold / yellow */
+      color:#1f2937;
+      font-size:13px;
+      font-weight:600;
+      box-shadow:0 0 18px rgba(250,204,21,0.7);
+    }
+
+    .helpline{
+      margin-top:12px;
+      font-size:12px;
+      opacity:0.9;
+    }
+    .helpline span{color:#4ade80;font-weight:500;}
+
+    /* Stats colors */
+    .stats-row{
+      margin-top:14px;
+      display:flex;
+      align-items:stretch;
+      justify-content:space-between;
+      gap:8px;
+      font-size:11.5px;
+    }
+    .stat{
+      flex:1;
+      background:rgba(15,23,42,0.98);
+      border-radius:14px;
+      padding:7px 8px 8px;
+      border:1px solid rgba(30,64,175,0.9);
+    }
+    .stat:nth-child(2){
+      border-color:rgba(16,185,129,0.9);
+    }
+    .stat:nth-child(3){
+      border-color:rgba(234,179,8,0.9);
+    }
+    .stat-label{
+      text-transform:uppercase;
+      letter-spacing:0.08em;
+      font-size:10px;
+      opacity:0.8;              /* thoda zyada readable */
+      color:#9ca3af;            /* soft grey label */
+    }
+    .stat-value{
+      margin-top:2px;
+      font-weight:700;
+      font-size:12px;
+      color:#22c55e;            /* common green value */
+    }
+
+    .social{
+      margin-top:16px;
+      font-size:12px;
+      opacity:0.9;
+      text-align:center;
+    }
+    .whatsapp-link{
+      margin-top:6px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:7px 14px;
+      border-radius:999px;
+      background:#22c55e;
+      color:#020617;
+      font-size:12px;
+      text-decoration:none;
+      box-shadow:0 0 18px rgba(34,197,94,0.8);
+    }
+    .whatsapp-dot{
+      width:8px;height:8px;
+      border-radius:50%;
+      background:#16a34a;
+    }
+    .footer-note{
+      margin-top:10px;
+      font-size:11px;
+      opacity:0.7;
+      text-align:center;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <div class="content">
+        <!-- Game image -->
+        <div class="thumb">
+          <!-- apna screenshot PNG yahan rakho -->
+          <img src="game-thumb.png" alt="Highway Traffic Game">
+          
+        </div>
+
+        <!-- Name + tagline -->
+        <h1>Tata Sierra – Earn & Drive</h1>
+        <p class="tagline">
+          Smooth lane‑changing car racer jahan aap coins earn karke rewards unlock kar sakte hain.
+        </p>
+
+        <!-- Main buttons -->
+        <button class="primary-btn" onclick="startGame()">PLAY NOW</button>
+        <button class="secondary-btn" onclick="openWithdraw()">Withdraw Money</button>
+
+        <!-- Helpline -->
+        <p class="helpline">
+          Helpline: <span>+91-7906328843</span> • Mon–Sat, 10 AM – 7 PM
+        </p>
+
+    
+...
+
+    <!-- 320x50 BANNER -->
+<script>
+  atOptions = {
+    'key' : '01f25da68cbc3c53a8827ebe90ce9998',
+    'format' : 'iframe',
+    'height' : 50,
+    'width' : 320,
+    'params' : {}
+  };
+</script>
+<script src="https://www.highperformanceformat.com/01f25da68cbc3c53a8827ebe90ce9998/invoke.js"></script>
+
+
+
+
+        <!-- Beautiful stats row -->
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-label">Players</div>
+            <div class="stat-value">2,250+</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Races Played</div>
+            <div class="stat-value">5,000+</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Total Rewards</div>
+            <div class="stat-value">₹100,000</div>
+          </div>
+        </div>
+
+        <!-- WhatsApp channel -->
+        <div class="social">
+          My Total Media
+          <br>
+          <a class="whatsapp-link"
+             href="https://whatsapp.com/channel/0029VbCKao06RGJEPf2QrV0L"
+             target="_blank" rel="noopener">
+            <span class="whatsapp-dot"></span>
+            Join WhatsApp Channel
+          </a>
+        </div>
+
+        <p class="footer-note">
+          Progress auto‑save hota hai. Isi device se kabhi bhi wapas race continue kar sakte ho.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function startGame(){
+      location.href = "index.html";
+    }
+    function openWithdraw(){
+      location.href = "withdraw.html";
+    }
+  </script>
+</body>
+</html>
