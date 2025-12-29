@@ -36,18 +36,16 @@
       justify-content:space-between;
       padding:0 40px;
     }
-    .btn{
-      width:70px;height:70px;
-      border-radius:50%;
-      border:2px solid #0f0;
-      color:#0f0;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-size:26px;
-      background:rgba(0,0,0,0.6);
-      user-select:none;
-    }
+.btn{
+  width:80px;height:80px;
+  border-radius:50%;
+  border:2px solid #0f0;
+  background-size:cover;
+  background-position:center;
+  font-size:0; /* text hide */
+}
+#leftBtn{ background-image: url('left-btn.png'); }
+#rightBtn{ background-image: url('right-btn.png'); }
   </style>
 </head>
 <body>
@@ -119,8 +117,8 @@
     const LANES = 4;
     const ROAD_WIDTH = 260;
     const CAR_W = 60, CAR_H = 110;
-    const ENEMY_SPEED_START = 3;
-    const ENEMY_SPEED_MAX   = 9;
+    const ENEMY_SPEED_START = 6;
+    const ENEMY_SPEED_MAX   = 10;
 
     const canvas = document.getElementById('gameCanvas');
     const ctx     = canvas.getContext('2d');
@@ -155,7 +153,7 @@
     let playerY;
 
     let enemies = [];
-    let laneOccupied = [false, false, false, false]; // har lane ka status [web:362]
+    let laneOccupied = [false, false, false, false];
     let speed  = ENEMY_SPEED_START;
     let score = 0;
     let best  = parseInt(localStorage.getItem('bestScore4Lane') || '0', 10);
@@ -167,7 +165,7 @@
 
     let running = true;
     let roadOffset = 0;
-    let startTime = Date.now();      // difficulty timer [web:371]
+    let startTime = Date.now();
 
     function initLanes(){
       const centerX = canvas.width/2;
@@ -181,27 +179,21 @@
       playerY = canvas.height - CAR_H - 40;
     }
 
-    // ek lane me ek hi enemy
     function spawnEnemy(){
       const freeLanes = [];
       for (let i = 0; i < LANES; i++) {
         if (!laneOccupied[i]) freeLanes.push(i);
       }
-      if (freeLanes.length === 0) return;
+      if (freeLanes.length === 0 || Math.random() > 0.02) return; // sirf 2% chance spawn
 
       const lane = freeLanes[Math.floor(Math.random() * freeLanes.length)];
-
-      const base = speed;
-      const extra = (Math.random() * 2) - 1;
-      const enemySpeed = Math.max(1.5, base + extra);
-      const sprite = enemyImgs[Math.floor(Math.random()*enemyImgs.length)];
 
       enemies.push({
         lane: lane,
         x: laneX[lane],
         y: -CAR_H - 20,
-        vy: enemySpeed,
-        img: sprite
+        vy: speed, // fixed normal speed
+        img: enemyImgs[Math.floor(Math.random()*enemyImgs.length)]
       });
 
       laneOccupied[lane] = true;
@@ -215,7 +207,6 @@
       running = true;
       gameOverPanel.style.display = 'none';
       startTime = Date.now();
-      spawnEnemy();
     }
 
     function moveLeft(){ if(playerLane>0) playerLane--; }
@@ -245,8 +236,14 @@
     function update(){
       if (!running) return;
 
-      // move enemies + lane free jab car bahar nikle
-      enemies.forEach(e => { e.y += e.vy; });
+      // 1 minute (60 sec) ke baad game hard
+      const elapsedSec = (Date.now() - startTime) / 1000;
+      if (elapsedSec > 60 && speed < ENEMY_SPEED_MAX) {
+        speed += 0.15; // gradually hard
+      }
+
+      // move enemies
+      enemies.forEach(e => { e.vy = speed; e.y += e.vy; });
 
       enemies = enemies.filter(e => {
         if (e.y >= canvas.height + CAR_H) {
@@ -256,27 +253,18 @@
         return true;
       });
 
-      // max 4 enemies (ek per lane)
-      if (Math.random() < 0.06 && enemies.length < 4) {
+      // controlled spawn - not ek saath
+      if (enemies.length < 3 && Math.random() < 2.115) {
         spawnEnemy();
       }
 
       score += 1;
 
-      if (score % 200 === 0) {
+      if (score % 150 === 0) {
         coins += 1;
         totalEarned += 1;
         localStorage.setItem('coins', coins.toString());
         localStorage.setItem('totalEarned', totalEarned.toString());
-      }
-
-      // 40 sec easy, uske baad धीरे-धीरे speed badhao
-      const elapsedSec = (Date.now() - startTime) / 1000;
-      if (elapsedSec > 40 && speed < ENEMY_SPEED_MAX) {
-        if (score % 300 === 0) {
-          speed += 0.4;
-          enemies.forEach(e => { e.vy += 0.4; });
-        }
       }
 
       const px = laneX[playerLane];
@@ -395,7 +383,7 @@
         ctx.fill();
       }
 
-      roadOffset += speed*0.8;
+      roadOffset += speed*0.5;
     }
 
     function render(){

@@ -181,6 +181,87 @@
       opacity:0.7;
       text-align:center;
     }
+
+    /* Share Button */
+    .share-btn{
+      margin-top:12px;
+      width:100%;
+      padding:10px 0;
+      border-radius:999px;
+      border:1px solid rgba(59,130,246,0.9);
+      background:linear-gradient(135deg,#3b82f6,#60a5fa);
+      color:#fff;
+      font-size:14px;
+      font-weight:600;
+      box-shadow:0 0 20px rgba(59,130,246,0.7);
+      cursor:pointer;
+      transition:transform 0.2s;
+    }
+    .share-btn:hover,.share-btn:active{transform:scale(0.98);}
+
+    /* Social Popup */
+    .social-popup{
+      display:none;
+      position:fixed;
+      top:0;left:0;
+      width:100%;
+      height:100%;
+      background:rgba(0,0,0,0.9);
+      z-index:9999;
+      align-items:center;
+      justify-content:center;
+    }
+    .popup-content{
+      background:rgba(15,23,42,0.98);
+      border-radius:24px;
+      padding:30px 24px;
+      max-width:340px;
+      width:90%;
+      text-align:center;
+      box-shadow:0 30px 80px rgba(0,0,0,0.95);
+      border:1px solid rgba(148,163,184,0.3);
+    }
+    .popup-close{
+      position:absolute;
+      top:16px;right:20px;
+      width:32px;height:32px;
+      border-radius:50%;
+      background:rgba(239,68,68,0.8);
+      border:none;
+      color:#fff;
+      font-size:18px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .popup-title{
+      font-size:20px;
+      margin-bottom:8px;
+      color:#22c55e;
+    }
+    .popup-share-btns{
+      display:flex;
+      gap:12px;
+      margin-top:20px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .popup-share-btn{
+      flex:1;
+      min-width:80px;
+      padding:12px 8px;
+      border-radius:16px;
+      border:none;
+      font-size:13px;
+      font-weight:600;
+      cursor:pointer;
+      transition:transform 0.2s;
+    }
+    .whatsapp-share{background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;}
+    .telegram-share{background:linear-gradient(135deg,#0088cc,#229ed9);color:#fff;}
+    .facebook-share{background:linear-gradient(135deg,#1877f2,#0e5a8a);color:#fff;}
+    .twitter-share{background:linear-gradient(135deg,#1da1f2,#0d8bd9);color:#fff;}
+    .copy-link{background:linear-gradient(135deg,#6b7280,#9ca3af);color:#fff;}
+    .popup-share-btn:active{transform:scale(0.95);}
   </style>
 </head>
 <body>
@@ -203,6 +284,9 @@
         <!-- Main buttons -->
         <button class="primary-btn" onclick="startGame()">PLAY NOW</button>
         <button class="secondary-btn" onclick="openWithdraw()">Withdraw Money</button>
+
+        <!-- Share Button -->
+        <button class="share-btn" onclick="openSocialPopup()">📱 Share Game</button>
 
         <!-- Helpline -->
         <p class="helpline">
@@ -262,13 +346,68 @@
     </div>
   </div>
 
-  <script>
-    function startGame(){
-      location.href = "home.html";
-    }
-    function openWithdraw(){
-      location.href = "withdraw.html";
-    }
-  </script>
+  <!-- Social Share Popup -->
+  <div class="social-popup" id="socialPopup">
+    <div class="popup-content">
+      <button class="popup-close" onclick="closeSocialPopup()">×</button>
+      <div class="popup-title">🎮 Share Tata Sierra Game</div>
+      <p style="opacity:0.9;margin-bottom:20px;">Apne dosto ke saath game share karo aur earn karo!</p>
+      <div class="popup-share-btns">
+        <button class="popup-share-btn whatsapp-share" onclick="shareWhatsApp()">WhatsApp</button>
+        <button class="popup-share-btn telegram-share" onclick="shareTelegram()">Telegram</button>
+        <button class="popup-share-btn facebook-share" onclick="shareFacebook()">Facebook</button>
+        <button class="popup-share-btn twitter-share" onclick="shareTwitter()">X (Twitter)</button>
+        <button class="popup-share-btn copy-link" onclick="copyLink()">Copy Link</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function startGame(){
+    location.href = "home.html";
+  }
+  function openWithdraw(){
+    location.href = "withdraw.html";
+  }
+
+  // Social Share Functions
+  function openSocialPopup(){
+    document.getElementById('socialPopup').style.display = 'flex';
+  }
+  function closeSocialPopup(){
+    document.getElementById('socialPopup').style.display = 'none';
+  }
+
+  // FIXED TELEGRAM BOT LINK
+  const gameUrl = "https://telegram.me/TataSierraEarnGame_Bot";
+  const shareText = "Tata Sierra Earn Game khelo! Smooth racing mein coins collect karo aur UPI se instant withdraw! Min ₹10 se shuru – real paise kamao! Play Now:-";
+
+  function shareWhatsApp(){
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + gameUrl)}`, '_blank');
+    closeSocialPopup();
+  }
+  function shareTelegram(){
+    window.open(`https://t.me/share/url?url=${encodeURIComponent(gameUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+    closeSocialPopup();
+  }
+  function shareFacebook(){
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(gameUrl)}`, '_blank');
+    closeSocialPopup();
+  }
+  function shareTwitter(){
+    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(gameUrl)}&text=${encodeURIComponent(shareText)}`, '_blank');
+    closeSocialPopup();
+  }
+  function copyLink(){
+    navigator.clipboard.writeText(gameUrl);
+    alert('✅ Telegram Bot Link Copied! 🚀');
+    closeSocialPopup();
+  }
+
+  // Close popup on outside click
+  document.getElementById('socialPopup').addEventListener('click', function(e){
+    if(e.target === this) closeSocialPopup();
+  });
+</script>
 </body>
 </html>
